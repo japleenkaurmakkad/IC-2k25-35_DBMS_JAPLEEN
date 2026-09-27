@@ -1,0 +1,5 @@
+--automatically creates table and copies india japan usa in it 
+CREATE TABLE dup_countries_full AS
+SELECT * FROM countries;
+
+SELECT * FROM dup_countries_full;
