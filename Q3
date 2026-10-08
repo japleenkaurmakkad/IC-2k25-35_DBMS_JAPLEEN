@@ -1,0 +1,9 @@
+-- Step 1: Create the structure similar to countries (empty table)
+CREATE TABLE IF NOT EXISTS dup_countries AS 
+SELECT * FROM countries 
+WHERE 1 = 0;
+
+-- Step 2: Insert details into dup_countries
+INSERT INTO dup_countries (country_id, country_name, region_id) 
+VALUES ('AU', 'Australia', 3);
+SELECT * FROM dup_countries;
