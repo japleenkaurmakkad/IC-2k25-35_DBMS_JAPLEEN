@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS countries (
+    country_id VARCHAR(10),
+    country_name VARCHAR(50),
+    region_id INT
+);
+INSERT INTO countries VALUES ('CA', 'Canada', 1);
