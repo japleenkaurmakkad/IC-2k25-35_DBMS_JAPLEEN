@@ -1,0 +1,7 @@
+CREATE TABLE countries (
+    country_id VARCHAR(10),
+    country_name VARCHAR(50),
+    region_id INT,
+    CONSTRAINT chk_country CHECK (country_name IN ('Italy', 'India', 'China'))
+);
+INSERT INTO countries VALUES ('IN', 'India', 3);
