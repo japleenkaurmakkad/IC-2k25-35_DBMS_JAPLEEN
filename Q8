@@ -1,0 +1,9 @@
+CREATE TABLE job_histry (
+    employee_id INT,
+    start_date VARCHAR(15),
+    end_date VARCHAR(15),
+    job_id VARCHAR(10),
+    department_id INT,
+    CONSTRAINT chk_end_date CHECK (end_date LIKE '--/--/----')
+);
+INSERT INTO job_histry VALUES (101, '01/01/2023', '--/--/----', 'IT_PROG', 60);
