@@ -1,0 +1,184 @@
+-- 1. Find employees who earn more than the employee whose last name is Bull
+SELECT first_name, last_name, salary
+FROM employees
+WHERE salary > (
+    SELECT salary
+    FROM employees
+    WHERE last_name = 'Bull'
+);
+
+-- 2. Find employees who work in the IT department
+SELECT first_name, last_name
+FROM employees
+WHERE department_id IN (
+    SELECT department_id
+    FROM departments
+    WHERE department_name = 'IT'
+);
+
+-- 3. Find employees who have a manager and work in a USA-based department
+SELECT first_name, last_name
+FROM employees
+WHERE manager_id IS NOT NULL
+AND department_id IN (
+    SELECT department_id
+    FROM departments
+    WHERE location_id IN (
+        SELECT location_id
+        FROM locations
+        WHERE country_id = 'US'
+    )
+);
+
+-- 4. Find employees who are managers
+SELECT first_name, last_name
+FROM employees
+WHERE employee_id IN (
+    SELECT DISTINCT manager_id
+    FROM employees
+    WHERE manager_id IS NOT NULL
+);
+
+-- 5. Find employees who earn more than the average salary
+SELECT first_name, last_name, salary
+FROM employees
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM employees
+);
+
+-- 6. Find employees whose salary is the minimum salary for their job grade
+SELECT e.first_name, e.last_name, e.salary
+FROM employees e
+WHERE e.salary = (
+    SELECT MIN(e2.salary)
+    FROM employees e2
+    WHERE e2.job_id = e.job_id
+);
+
+-- 7. Find employees who earn more than average salary and work in an IT department
+SELECT first_name, last_name, salary
+FROM employees
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM employees
+)
+AND department_id IN (
+    SELECT department_id
+    FROM departments
+    WHERE department_name = 'IT'
+);
+
+-- 8. Find employees who earn more than Mr. Bell
+SELECT first_name, last_name, salary
+FROM employees
+WHERE salary > (
+    SELECT salary
+    FROM employees
+    WHERE last_name = 'Bell'
+);
+
+-- 9. Find employees who earn the minimum salary across all departments
+SELECT first_name, last_name, salary
+FROM employees
+WHERE salary = (
+    SELECT MIN(salary)
+    FROM employees
+);
+
+-- 10. Find employees whose salary is greater than the average salary of all departments
+SELECT first_name, last_name, salary
+FROM employees
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM employees
+);
+
+-- 11. Find employees who earn more than all Shipping Clerks, sorted by salary
+SELECT first_name, last_name, salary
+FROM employees
+WHERE salary > ALL (
+    SELECT salary
+    FROM employees
+    WHERE job_id = 'SH_CLERK'
+)
+ORDER BY salary ASC;
+
+-- 12. Find employees who are not supervisors (not managing anyone)
+SELECT first_name, last_name
+FROM employees
+WHERE employee_id NOT IN (
+    SELECT manager_id
+    FROM employees
+    WHERE manager_id IS NOT NULL
+);
+
+-- 13. Display employee ID, first name, last name, and department name
+SELECT e.employee_id, e.first_name, e.last_name, d.department_name
+FROM employees e
+LEFT JOIN departments d
+ON e.department_id = d.department_id;
+
+-- 14. Find employees who earn more than the average salary of their department
+SELECT employee_id, first_name, last_name, salary
+FROM employees e
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM employees
+    WHERE department_id = e.department_id
+);
+
+-- 15. Fetch even-numbered employee records (based on employee_id)
+SELECT *
+FROM employees
+WHERE MOD(employee_id, 2) = 0;
+
+-- 16. Find the 5th highest distinct salary
+SELECT DISTINCT salary
+FROM employees
+ORDER BY salary DESC
+OFFSET 4 ROWS FETCH NEXT 1 ROW ONLY;
+
+-- 17. Find the 4th lowest distinct salary
+SELECT DISTINCT salary
+FROM employees
+ORDER BY salary ASC
+OFFSET 3 ROWS FETCH NEXT 1 ROW ONLY;
+
+-- 18. Select the last 10 records (based on employee_id)
+SELECT *
+FROM (
+    SELECT *
+    FROM employees
+    ORDER BY employee_id DESC
+)
+WHERE ROWNUM <= 10
+ORDER BY employee_id ASC;
+
+-- 19. Find departments where no employees are working
+SELECT d.department_id, d.department_name
+FROM departments d
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM employees e
+    WHERE e.department_id = d.department_id
+);
+
+-- 20. Get the 3 highest distinct salaries
+SELECT DISTINCT salary
+FROM employees
+ORDER BY salary DESC
+FETCH FIRST 3 ROWS ONLY;
+
+-- 21. Get the 3 lowest distinct salaries
+SELECT DISTINCT salary
+FROM employees
+ORDER BY salary ASC
+FETCH FIRST 3 ROWS ONLY;
+
+-- 22. Find the Nth highest distinct salary
+-- Replace :N with the required position, such as 5
+SELECT DISTINCT salary
+FROM employees
+ORDER BY salary DESC
+OFFSET (:N - 1) ROWS FETCH NEXT 1 ROW ONLY;
