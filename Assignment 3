@@ -1,0 +1,57 @@
+-- 1. Display employee names and salary for employees whose salary is not between 10000 and 15000
+SELECT first_name, last_name, salary
+FROM employees
+WHERE salary NOT BETWEEN 10000 AND 15000;
+
+-- 2. Display employee names and department ID for employees in departments 30 or 100, in ascending order
+SELECT first_name, last_name, department_id
+FROM employees
+WHERE department_id IN (30, 100)
+ORDER BY department_id ASC;
+
+-- 3. Display employee names and salary where salary is not between 10000 and 15000 and department is 30 or 100
+SELECT first_name, last_name, salary
+FROM employees
+WHERE salary NOT BETWEEN 10000 AND 15000
+AND department_id IN (30, 100);
+
+-- 4. Display employee names and hire date for employees hired in 1987
+SELECT first_name, last_name, hire_date
+FROM employees
+WHERE hire_date >= '1987-01-01'
+AND hire_date < '1988-01-01';
+
+-- 5. Display first names containing both 'b' and 'c'
+SELECT first_name
+FROM employees
+WHERE LOWER(first_name) LIKE '%b%'
+AND LOWER(first_name) LIKE '%c%';
+
+-- 6. Display last name, job, and salary for Programmers or Shipping Clerks, excluding salaries 4500, 10000, and 15000
+SELECT last_name, job_id, salary
+FROM employees
+WHERE job_id IN ('IT_PROG', 'SH_CLERK')
+AND salary NOT IN (4500, 10000, 15000);
+
+-- 7. Display last names containing exactly 6 characters
+SELECT last_name
+FROM employees
+WHERE last_name LIKE '______';
+
+-- 8. Display last names having 'e' as the third character
+SELECT last_name
+FROM employees
+WHERE last_name LIKE '__e%';
+
+-- 9. Display the distinct jobs/designations available in the employees table
+SELECT DISTINCT job_id
+FROM employees;
+
+-- 10. Display employee names, salary, and PF (15% of salary)
+SELECT first_name, last_name, salary, salary * 0.15 AS PF
+FROM employees;
+
+-- 11. Display all employee records whose last name is BLAKE, SCOTT, KING, or FORD
+SELECT *
+FROM employees
+WHERE UPPER(last_name) IN ('BLAKE', 'SCOTT', 'KING', 'FORD');
