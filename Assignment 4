@@ -1,0 +1,76 @@
+-- 1. List the number of jobs available in the employees table
+SELECT COUNT(DISTINCT job_id) AS number_of_jobs
+FROM employees;
+
+-- 2. Get the total salaries payable to employees
+SELECT SUM(salary) AS total_salary
+FROM employees;
+
+-- 3. Get the minimum salary from the employees table
+SELECT MIN(salary) AS minimum_salary
+FROM employees;
+
+-- 4. Get the maximum salary of an employee working as a Programmer
+SELECT MAX(salary) AS maximum_salary
+FROM employees
+WHERE job_id = 'IT_PROG';
+
+-- 5. Get the average salary and number of employees in department 90
+SELECT AVG(salary) AS average_salary, COUNT(*) AS number_of_employees
+FROM employees
+WHERE department_id = 90;
+
+-- 6. Get the highest, lowest, total, and average salary of all employees
+SELECT MAX(salary) AS highest_salary,
+       MIN(salary) AS lowest_salary,
+       SUM(salary) AS total_salary,
+       AVG(salary) AS average_salary
+FROM employees;
+
+-- 7. Get the number of employees with the same job
+SELECT job_id, COUNT(*) AS number_of_employees
+FROM employees
+GROUP BY job_id;
+
+-- 8. Get the difference between the highest and lowest salaries
+SELECT MAX(salary) - MIN(salary) AS salary_difference
+FROM employees;
+
+-- 9. Get the manager ID and salary of the lowest-paid employee under each manager
+SELECT manager_id, MIN(salary) AS lowest_salary
+FROM employees
+WHERE manager_id IS NOT NULL
+GROUP BY manager_id;
+
+-- 10. Get the department ID and total salary payable in each department
+SELECT department_id, SUM(salary) AS total_salary
+FROM employees
+GROUP BY department_id;
+
+-- 11. Get the average salary for each job ID, excluding Programmers
+SELECT job_id, AVG(salary) AS average_salary
+FROM employees
+WHERE job_id <> 'IT_PROG'
+GROUP BY job_id;
+
+-- 12. Get the total, maximum, minimum, and average salary job-wise in department 90
+SELECT job_id,
+       SUM(salary) AS total_salary,
+       MAX(salary) AS maximum_salary,
+       MIN(salary) AS minimum_salary,
+       AVG(salary) AS average_salary
+FROM employees
+WHERE department_id = 90
+GROUP BY job_id;
+
+-- 13. Get the job ID and maximum salary where the maximum salary is at least 4000
+SELECT job_id, MAX(salary) AS maximum_salary
+FROM employees
+GROUP BY job_id
+HAVING MAX(salary) >= 4000;
+
+-- 14. Get the average salary of departments employing more than 10 employees
+SELECT department_id, AVG(salary) AS average_salary
+FROM employees
+GROUP BY department_id
+HAVING COUNT(*) > 10;
